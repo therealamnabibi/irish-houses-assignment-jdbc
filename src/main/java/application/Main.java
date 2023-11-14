@@ -1,84 +1,78 @@
 package application;
 
+import model.Property;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class Main {
+    // Modify the connection details based on your database setup
+    private static final String JDBC_URL = "jdbc:mysql://localhost:8081/ihl_db";
+    private static final String USERNAME = "your_username";
+    private static final String PASSWORD = "your_password";
 
-  public static void main(String[] args) {
-    
-        // create style object
-        Style style = new Style();
-        style.setStyleId(1);
-        style.setPStyle("Colonial");
+    public static void updateProperty(Property property) {
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD)) {
+            String query = "UPDATE properties SET street=?, city=?, listingNum=?, styleId=?, typeId=?, bedrooms=?, " +
+                    "bathrooms=?, squarefeet=?, berRating=?, description=?, lotsize=?, garagesize=?, garageId=?, " +
+                    "agentId=?, photo=?, price=?, dateAdded=? WHERE id=?";
 
-        // create agent object
-        Agent agent = new Agent(); 
-        agent.setAgentId(1);
-        agent.setName("John Smith");
-        agent.setPhone("1234567890");
-        agent.setFax("0987654321");
-        agent.setEmail("amnah@email.com");
-        agent.setUsername("jsmith");
-        agent.setPassword("password1");
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                // Set parameters for the update query
+                preparedStatement.setString(1, property.getStreet());
+                preparedStatement.setString(2, property.getCity());
+                preparedStatement.setInt(3, property.getListingNum());
+                preparedStatement.setInt(4, property.getStyleId());
+                preparedStatement.setInt(5, property.getTypeId());
+                preparedStatement.setInt(6, property.getBedrooms());
+                preparedStatement.setFloat(7, property.getBathrooms());
+                preparedStatement.setInt(8, property.getSquarefeet());
+                preparedStatement.setString(9, property.getBerRating());
+                preparedStatement.setString(10, property.getDescription());
+                preparedStatement.setString(11, property.getLotsize());
+                preparedStatement.setByte(12, property.getGaragesize());
+                preparedStatement.setInt(13, property.getGarageId());
+                preparedStatement.setInt(14, property.getAgentId());
+                preparedStatement.setString(15, property.getPhoto());
+                preparedStatement.setDouble(16, property.getPrice());
+                preparedStatement.setDate(17, new java.sql.Date(property.getDateAdded().getTime()));
+                preparedStatement.setInt(18, property.getId());
 
-        // create garage type object
-        GarageType garageType = new GarageType();
-        garageType.setGarageId(1);
-        garageType.setGType("Attached");
+                // Execute the update query
+                int rowsAffected = preparedStatement.executeUpdate();
+                System.out.println(rowsAffected + " row(s) updated.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-        // create propertyType object
-        PropertyType propertyType = new PropertyType();
-        propertyType.setTypeId(1);
-        propertyType.setPType("Residential");
+    public static void archiveProperty(Property property) {
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD)) {
+            String query = "UPDATE properties SET archived=true WHERE id=?";
 
-        // create property object
-        Property property = new Property();
-        property.setId(1);
-        property.setStreet("123 Main St");
-        property.setCity("Limerick");
-        property.setListingNum(123456);
-        property.setStyleId(1);
-        property.setTypeId(1);
-        property.setBedrooms(3);
-        property.setBathrooms(2.5f);
-        property.setSquarefeet(2000);
-        property.setBerRating("B3");
-        property.setDescription("This beautiful colonial style house is located on a quiet street.");
-        property.setLotsize("0.5 acres");
-        property.setGaragesize((byte) 2);
-        property.setGarageId(1);
-        property.setAgentId(1);
-        property.setPhoto("propertyphoto.jpg");
-        property.setPrice(350000);
-        property.setDateAdded(LocalDate.of(2023, 2, 2));
-        property.setStyle(style);
-        property.setPropertyType(propertyType);
-        property.setGarageType(garageType);
-        property.setAgent(agent);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                // Set parameters for the update query
+                preparedStatement.setInt(1, property.getId());
 
-        
-        System.out.println("\nEnter the number of the field to update:");
-        System.out.println("1. Street Address");
-        System.out.println("2. City Location");
-        System.out.println("3. Listing Number");
-        System.out.println("4. Style ID");
-        System.out.println("5. Property Type ID");
-        System.out.println("6. Bedrooms");
-        System.out.println("7. Bathrooms");
-        System.out.println("8. Square Feet");
-        System.out.println("9. BER Rating");
-        System.out.println("10. Description");
-        System.out.println("11. Lot Size");
-        System.out.println("12. Garage Size");
-        System.out.println("13. Garage Type ID");
-        System.out.println("14. Agent ID");
-        System.out.println("15. Property Photo");
-        System.out.println("16. Price");
-        System.out.println("17. Date Added");
+                // Execute the update query
+                int rowsAffected = preparedStatement.executeUpdate();
+                System.out.println(rowsAffected + " row(s) archived.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static void main(String[] args) {
+        // Create an instance of Property for testing
+        Property property = new Property(/* initialize property details */);
 
-
-  }
+        // Call the update and archive methods
+        updateProperty(property);
+        archiveProperty(property);
+    }
 }
-//mmnn
-
-   
-               
+//nnn

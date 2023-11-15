@@ -3,6 +3,16 @@ import lombok.*;
 import org.apache.commons.lang3.builder.ToStringExclude;
 
 import java.util.Date;
+import model.Property;
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+
+
 
 @Getter
 @Setter
@@ -10,6 +20,8 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 public class Property {
+
+
     private int id;
     private String street;
     private String city;
@@ -35,5 +47,8 @@ public class Property {
     private PropertyType propertyType;
     private GarageType garageType;
     private Agent agent;
+
+
+
 
 }

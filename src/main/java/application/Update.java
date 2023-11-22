@@ -59,27 +59,34 @@ public class Update {
                     // Prompt user for updates
                     System.out.print("Would you like to update the ListingNum? (yes/No): ");
                     String updateListingNum = scanner.nextLine();
+                    int newListingNum;
+
                     if ("yes".equalsIgnoreCase(updateListingNum)) {
                         System.out.print("Enter new ListingNum: ");
-                        int newListingNum = scanner.nextInt();
-                        updateStatement.setInt(1, newListingNum);
+                        newListingNum = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline character
                     } else {
-                        updateStatement.setInt(1, resultSet.getInt("listingNum"));
+                        newListingNum = resultSet.getInt("listingNum");
                     }
-                    resultSet.updateInt("styleId", resultSet.getInt("styleId"));
-                    resultSet.updateInt("typeId", resultSet.getInt("typeId"));
-                    resultSet.updateInt("bedrooms", resultSet.getInt("bedrooms"));
-                    resultSet.updateFloat("bathrooms", resultSet.getFloat("bathrooms"));
-                    resultSet.updateInt("squarefeet", resultSet.getInt("squarefeet"));
-                    resultSet.updateString("berRating", resultSet.getString("berRating"));
-                    resultSet.updateString("description", resultSet.getString("description"));
-                    resultSet.updateString("lotsize", resultSet.getString("lotsize"));
-                    resultSet.updateInt("garagesize", resultSet.getInt("garagesize"));
-                    resultSet.updateInt("garageId", resultSet.getInt("garageId"));
-                    resultSet.updateInt("agentId", resultSet.getInt("agentId"));
-                    resultSet.updateString("photo", resultSet.getString("photo"));
-                    resultSet.updateDouble("price", resultSet.getDouble("price"));
-                    resultSet.updateDate("dateAdded", resultSet.getDate("dateAdded"));
+
+                    updateStatement.setString(1, resultSet.getString("street"));
+                    updateStatement.setString(2, resultSet.getString("city"));
+                    updateStatement.setInt(3, newListingNum);
+                    updateStatement.setInt(4, resultSet.getInt("styleId"));
+                    updateStatement.setInt(5, resultSet.getInt("typeId"));
+                    updateStatement.setInt(6, resultSet.getInt("bedrooms"));
+                    updateStatement.setFloat(7, resultSet.getFloat("bathrooms"));
+                    updateStatement.setInt(8, resultSet.getInt("squarefeet"));
+                    updateStatement.setString(9, resultSet.getString("berRating"));
+                    updateStatement.setString(10, resultSet.getString("description"));
+                    updateStatement.setString(11, resultSet.getString("lotsize"));
+                    updateStatement.setInt(12, resultSet.getInt("garagesize"));
+                    updateStatement.setInt(13, resultSet.getInt("garageId"));
+                    updateStatement.setInt(14, resultSet.getInt("agentId"));
+                    updateStatement.setString(15, resultSet.getString("photo"));
+                    updateStatement.setDouble(16, resultSet.getDouble("price"));
+                    updateStatement.setDate(17, resultSet.getDate("dateAdded"));
+                    updateStatement.setInt(18, propertyId);
 
                     int rowsAffected = updateStatement.executeUpdate();
                     System.out.println(rowsAffected + " row(s) updated.");
@@ -98,6 +105,7 @@ public class Update {
 
             System.out.print("Enter the ID of the property you want to archive: ");
             int propertyId = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character
 
             String query = "UPDATE properties SET description = CONCAT(description, ' [Archived]') WHERE id = ?";
 
@@ -111,4 +119,5 @@ public class Update {
             e.printStackTrace();
         }
     }
+
 }

@@ -99,6 +99,7 @@ public class Update {
         }
     }
 
+
     public static void archiveProperty() {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
              Scanner scanner = new Scanner(System.in)) {

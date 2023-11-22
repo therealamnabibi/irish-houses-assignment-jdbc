@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+
+
 public class Update {
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/ihl_db";
     private static final String USERNAME = "root";
@@ -14,7 +16,7 @@ public class Update {
 
     public static void main(String[] args) {
         updateProperty();
-        archiveProperty();
+        //archiveProperty();
     }
 
     public static void updateProperty() {
@@ -64,7 +66,7 @@ public class Update {
                     if ("yes".equalsIgnoreCase(updateListingNum)) {
                         System.out.print("Enter new ListingNum: ");
                         newListingNum = scanner.nextInt();
-                        scanner.nextLine(); // Consume newline character
+                        scanner.nextLine();
                     } else {
                         newListingNum = resultSet.getInt("listingNum");
                     }
@@ -99,26 +101,18 @@ public class Update {
         }
     }
 
+    //public static void archiveProperty() {
 
-    public static void archiveProperty() {
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
-             Scanner scanner = new Scanner(System.in)) {
 
-            System.out.print("Enter the ID of the property you want to archive: ");
-            int propertyId = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
 
-            String query = "UPDATE properties SET description = CONCAT(description, ' [Archived]') WHERE id = ?";
+    //}
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setInt(1, propertyId); // Use the entered property ID
 
-                int rowsAffected = preparedStatement.executeUpdate();
-                System.out.println(rowsAffected + " row(s) archived.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
+
+
+//nnn
+
+
+

@@ -16,28 +16,28 @@ public class DynamicQuery {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
              Scanner scanner = new Scanner(System.in)) {
 
-            // Step 2: User Input
-            System.out.print("Enter the city to filter by (Enter for all cities): ");
+
+            System.out.print("Enter the city to filter : ");
             String cityFilter = scanner.nextLine().trim();
             System.out.print("Enter the minimum number of bedrooms: ");
             int minBedrooms = scanner.nextInt();
 
-            // Step 3: Build the SQL Query
+//
             String query = buildDynamicQuery(cityFilter, minBedrooms);
+//
 
-            // Step 4: Execute the Query
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 ResultSet resultSet = preparedStatement.executeQuery();
 
-                // Step 5: Display Results
+
                 displayResults(resultSet);
 
-            }
+         }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+     } catch (SQLException e) {
+         e.printStackTrace();
+      }
+  }
 
     private static String buildDynamicQuery(String cityFilter, int minBedrooms) {
 
@@ -51,24 +51,24 @@ public class DynamicQuery {
         return query.toString();
     }
 
-    private static void displayResults(ResultSet resultSet) throws SQLException {
-        ResultSetMetaData metaData = resultSet.getMetaData();
-        int columnCount = metaData.getColumnCount();
+  private static void displayResults(ResultSet resultSet) throws SQLException {
+       ResultSetMetaData metaData = resultSet.getMetaData();
+   int columnCount = metaData.getColumnCount();
 
-        // Display column headers
-        for (int i = 1; i <= columnCount; i++) {
-            System.out.print(metaData.getColumnName(i) + "\t");
-        }
-        System.out.println();
 
-        // Display data
-        while (resultSet.next()) {
-            for (int i = 1; i <= columnCount; i++) {
-                System.out.print(resultSet.getString(i) + "\t");
-            }
-            System.out.println();
-        }
+      for (int i = 1; i <= columnCount; i++) {
+        System.out.print(metaData.getColumnName(i) + "\t");
+     }
+       System.out.println();
+
+
+       while (resultSet.next()) {
+       for (int i = 1; i <= columnCount; i++) {
+              System.out.print(resultSet.getString(i) + "\t");
+          }
+       System.out.println();
     }
+ }
 
 
 }

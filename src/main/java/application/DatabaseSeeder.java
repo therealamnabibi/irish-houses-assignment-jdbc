@@ -49,7 +49,7 @@ public class DatabaseSeeder {
 
         System.out.print("Enter the number of properties to generate: ");
         int numberOfProperties = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+        scanner.nextLine();
 
         try {
             int maxStyleId = getMaxStyleId(connection);
@@ -69,23 +69,23 @@ public class DatabaseSeeder {
                 for (int i = 0; i < numberOfProperties; i++) {
                     int styleId = faker.number().numberBetween(1, maxStyleId + 1);
 
-                    insertPropertyStatement.setString(1, faker.address().streetAddress());
-                    insertPropertyStatement.setString(2, faker.address().city());
-                    insertPropertyStatement.setInt(3, faker.number().randomDigitNotZero());
-                    insertPropertyStatement.setInt(4, styleId);
-                    insertPropertyStatement.setInt(5, faker.number().numberBetween(1, 4));
-                    insertPropertyStatement.setInt(6, faker.number().numberBetween(1, 10));
-                    insertPropertyStatement.setFloat(7, (float) faker.number().randomDouble(2, 0, 10));
-                    insertPropertyStatement.setInt(8, faker.number().numberBetween(1000, 5000));
-                    insertPropertyStatement.setString(9, faker.lorem().characters(2));
-                    insertPropertyStatement.setString(10, faker.lorem().sentence());
-                    insertPropertyStatement.setString(11, faker.number().numberBetween(100, 1000) + "x" + faker.number().numberBetween(100, 1000));
-                    insertPropertyStatement.setInt(12, faker.number().numberBetween(1, 5));
-                    insertPropertyStatement.setInt(13, faker.number().numberBetween(1, 4));
-                    insertPropertyStatement.setInt(14, faker.number().numberBetween(1, 6));
-                    insertPropertyStatement.setString(15, faker.lorem().word() + ".jpg");
-                    insertPropertyStatement.setDouble(16, faker.number().randomDouble(2, 50000, 300000));
-                    insertPropertyStatement.setDate(17, new java.sql.Date(new Date().getTime()));
+                    insertPropertyStatement.setString(1, faker.address().streetAddress()); //street
+                    insertPropertyStatement.setString(2, faker.address().city()); //city
+                    insertPropertyStatement.setInt(3, faker.number().randomDigitNotZero());//listingnum
+                    insertPropertyStatement.setInt(4, faker.number().numberBetween(1, 11));//styleid
+                    insertPropertyStatement.setInt(5, faker.number().numberBetween(1, 3));//typeid
+                    insertPropertyStatement.setInt(6, faker.number().numberBetween(1, 10));//bedrooms
+                    insertPropertyStatement.setInt(7, faker.number().numberBetween(1, 10));//bathrooms
+                    insertPropertyStatement.setInt(8, faker.number().numberBetween(1000, 5000));//squarefeet
+                    insertPropertyStatement.setString(9, faker.lorem().characters(2));//berRating
+                    insertPropertyStatement.setString(10, faker.lorem().sentence());//description
+                    insertPropertyStatement.setInt(11, faker.number().numberBetween(1, 10));//lotsize
+                    insertPropertyStatement.setInt(12, faker.number().numberBetween(1, 5));//garagesize
+                    insertPropertyStatement.setInt(13, faker.number().numberBetween(1, 3));//garageid
+                    insertPropertyStatement.setInt(14, faker.number().numberBetween(1, 6));//agentid
+                    insertPropertyStatement.setString(15, faker.lorem().word() + ".jpg");//photo
+                    insertPropertyStatement.setDouble(16, faker.number().randomDouble(2, 50000, 300000));//price
+                    insertPropertyStatement.setDate(17, new java.sql.Date(new Date().getTime()));//dateAdded
 
                     insertPropertyStatement.executeUpdate();
                 }

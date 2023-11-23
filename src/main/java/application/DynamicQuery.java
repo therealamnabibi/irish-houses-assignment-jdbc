@@ -32,12 +32,12 @@ public class DynamicQuery {
 
                 displayResults(resultSet);
 
-         }
+            }
 
-     } catch (SQLException e) {
-         e.printStackTrace();
-      }
-  }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     private static String buildDynamicQuery(String cityFilter, int minBedrooms) {
 
@@ -51,29 +51,29 @@ public class DynamicQuery {
         return query.toString();
     }
 
-  private static void displayResults(ResultSet resultSet) throws SQLException {
-       ResultSetMetaData metaData = resultSet.getMetaData();
-   int columnCount = metaData.getColumnCount();
+    private static void displayResults(ResultSet resultSet) throws SQLException {
+        ResultSetMetaData metaData = resultSet.getMetaData();
+        int columnCount = metaData.getColumnCount();
 
 
-      for (int i = 1; i <= columnCount; i++) {
-        System.out.print(metaData.getColumnName(i) + "\t");
-     }
-       System.out.println();
+        for (int i = 1; i <= columnCount; i++) {
+            System.out.print(metaData.getColumnName(i) + "\t");
+        }
+        System.out.println();
 
 
-       while (resultSet.next()) {
-       for (int i = 1; i <= columnCount; i++) {
-              System.out.print(resultSet.getString(i) + "\t");
-          }
-       System.out.println();
+        while (resultSet.next()) {
+            for (int i = 1; i <= columnCount; i++) {
+                System.out.print(resultSet.getString(i) + "\t");
+            }
+            System.out.println();
+        }
     }
- }
 
 
 }
 
-
+//
 
 
 

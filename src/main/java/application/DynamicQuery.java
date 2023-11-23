@@ -22,9 +22,9 @@ public class DynamicQuery {
             System.out.print("Enter the minimum number of bedrooms: ");
             int minBedrooms = scanner.nextInt();
 
-//
+
             String query = buildDynamicQuery(cityFilter, minBedrooms);
-//
+
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 ResultSet resultSet = preparedStatement.executeQuery();

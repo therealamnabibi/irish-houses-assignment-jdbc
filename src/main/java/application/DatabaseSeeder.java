@@ -1,4 +1,5 @@
 package application;
+
 import com.github.javafaker.Faker;
 
 import java.sql.Connection;
@@ -17,6 +18,7 @@ public class DatabaseSeeder {
 
     public static void main(String[] args) {
         seedProperties();
+
     }
 
     public static void seedProperties() {
@@ -26,6 +28,9 @@ public class DatabaseSeeder {
             System.out.println("Connected to the database.");
 
             seedProperties(connection);
+
+            // After seeding properties, provide the option to delete
+            deleteProperty(connection);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,5 +100,33 @@ public class DatabaseSeeder {
             e.printStackTrace();
         }
     }
-}
 
+    private static void deleteProperty(Connection connection) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Do you want to delete a property? (yes/no): ");
+        String choice = scanner.nextLine().toLowerCase();
+
+        if (choice.equals("yes")) {
+            System.out.print("Enter the ID of the property to delete: ");
+            int propertyId = scanner.nextInt();
+            scanner.nextLine(); // consume the newline
+
+            String deletePropertyQuery = "DELETE FROM properties WHERE id = ?";
+
+            try (PreparedStatement deletePropertyStatement = connection.prepareStatement(deletePropertyQuery)) {
+                deletePropertyStatement.setInt(1, propertyId);
+                int affectedRows = deletePropertyStatement.executeUpdate();
+
+                if (affectedRows > 0) {
+                    System.out.println("Property with ID " + propertyId + " deleted successfully.");
+                } else {
+                    System.out.println("No property found with ID " + propertyId + ". Deletion failed.");
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

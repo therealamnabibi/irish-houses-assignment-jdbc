@@ -22,7 +22,6 @@ public class DatabaseSeeder {
     }
 
     public static void seedProperties() {
-        System.out.println("Connecting to the database with URL: " + JDBC_URL + ", username: " + USERNAME + ", password: " + PASSWORD);
 
         try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD)) {
             System.out.println("Connected to the database.");
@@ -130,3 +129,4 @@ public class DatabaseSeeder {
         }
     }
 }
+

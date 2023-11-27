@@ -71,7 +71,7 @@ public class ArchiveProperty {
             try {
                 System.out.print("Enter a numeric value: ");
                 input = Integer.parseInt(scanner.nextLine());
-                break; // Exit the loop if input is successfully parsed
+                break;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid numeric value.");
             }

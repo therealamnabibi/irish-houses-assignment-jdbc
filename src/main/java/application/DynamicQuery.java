@@ -101,7 +101,7 @@ public class DynamicQuery {
 
     private static void saveAsTextFile(ResultSet resultSet, String fileName) {
         try (FileWriter fileWriter = new FileWriter(fileName)) {
-            // Write column names
+
             ResultSetMetaData metaData = resultSet.getMetaData();
             int columnCount = metaData.getColumnCount();
             for (int i = 1; i <= columnCount; i++) {
@@ -109,10 +109,10 @@ public class DynamicQuery {
             }
             fileWriter.write("\n");
 
-            // Move cursor to the beginning of the result set
+
             resultSet.beforeFirst();
 
-            // Write query results
+
             while (resultSet.next()) {
                 for (int i = 1; i <= columnCount; i++) {
                     fileWriter.write(resultSet.getString(i) + "\t");

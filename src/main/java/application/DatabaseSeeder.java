@@ -28,7 +28,7 @@ public class DatabaseSeeder {
 
             seedProperties(connection);
 
-            // After seeding properties, provide the option to delete
+
             deleteProperty(connection);
 
         } catch (SQLException e) {
@@ -58,7 +58,7 @@ public class DatabaseSeeder {
         try {
             int maxStyleId = getMaxStyleId(connection);
 
-            // Check if there are styles available in the styles table
+
             if (maxStyleId == 0) {
                 System.out.println("No styles available in the styles table. Cannot seed properties.");
                 return;
@@ -109,7 +109,7 @@ public class DatabaseSeeder {
         if (choice.equals("yes")) {
             System.out.print("Enter the ID of the property to delete: ");
             int propertyId = scanner.nextInt();
-            scanner.nextLine(); // consume the newline
+            scanner.nextLine();
 
             String deletePropertyQuery = "DELETE FROM properties WHERE id = ?";
 

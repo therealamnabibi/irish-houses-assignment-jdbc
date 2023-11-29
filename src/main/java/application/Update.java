@@ -24,7 +24,7 @@ public class Update {
 
             System.out.print("Enter the ID of the property you wish to update: ");
             int propertyId = scanner.nextInt();
-            scanner.nextLine(); // consume the newline character
+            scanner.nextLine();
 
             String selectQuery = "SELECT * FROM properties WHERE id=?";
             String updateQuery = "UPDATE properties SET street=?, city=?, listingNum=?, styleId=?, typeId=?, bedrooms=?, " +
@@ -38,9 +38,9 @@ public class Update {
                 ResultSet resultSet = selectStatement.executeQuery();
 
                 if (resultSet.next()) {
-                    // Display current property details
+
                     displayPropertyDetails(resultSet);
-                    // Prompt user for updates
+
                     updateStatement.setInt(18, propertyId);
                     promptAndUpdateAttribute("Street", resultSet.getString("street"), updateStatement, 1, scanner);
                     promptAndUpdateAttribute("City", resultSet.getString("city"), updateStatement, 2, scanner);

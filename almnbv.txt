@@ -1,1 +1,0 @@
-id	street	city	listingNum	styleId	typeId	bedrooms	bathrooms	squarefeet	berRating	description	lotsize	garagesize	garageId	agentId	photo	price	dateAdded	

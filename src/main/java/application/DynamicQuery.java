@@ -26,7 +26,7 @@ public class DynamicQuery {
             String cityFilter = scanner.nextLine().trim();
             System.out.print("Enter the minimum number of bedrooms: ");
             int minBedrooms = scanner.nextInt();
-            scanner.nextLine(); // consume the newline character
+            scanner.nextLine();
 
             System.out.print("Do you want to sort the results? (yes/no): ");
             String sortChoice = scanner.nextLine().toLowerCase();
@@ -42,20 +42,21 @@ public class DynamicQuery {
                 sortOrder = scanner.nextLine();
             }
 
-            String query = buildDynamicQuery(cityFilter, minBedrooms, sortColumn, sortOrder);
+            // Create a Statement with TYPE_SCROLL_INSENSITIVE type
+            try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+                String query = buildDynamicQuery(cityFilter, minBedrooms, sortColumn, sortOrder);
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                ResultSet resultSet = preparedStatement.executeQuery();
+                try (ResultSet resultSet = statement.executeQuery(query)) {
+                    displayResults(resultSet);
 
-                displayResults(resultSet);
+                    System.out.print("Would you like to save this search? (yes/no): ");
+                    String saveChoice = scanner.nextLine().toLowerCase();
 
-                System.out.print("Would you like to save this search? (yes/no): ");
-                String saveChoice = scanner.nextLine().toLowerCase();
-
-                if ("yes".equals(saveChoice)) {
-                    System.out.print("Please enter a file name to save the search results: ");
-                    String fileName = scanner.nextLine().trim();
-                    saveResultsToFile(resultSet, fileName);
+                    if ("yes".equals(saveChoice)) {
+                        System.out.print("Please enter a file name to save the search results: ");
+                        String fileName = scanner.nextLine().trim();
+                        saveAsTextFile(resultSet, fileName);
+                    }
                 }
             }
 
@@ -63,6 +64,7 @@ public class DynamicQuery {
             e.printStackTrace();
         }
     }
+
 
 
     private static String buildDynamicQuery(String cityFilter, int minBedrooms, String sortColumn, String sortOrder) {
@@ -97,29 +99,33 @@ public class DynamicQuery {
         }
     }
 
-    private static void saveResultsToFile(ResultSet resultSet, String fileName) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
+    private static void saveAsTextFile(ResultSet resultSet, String fileName) {
+        try (FileWriter fileWriter = new FileWriter(fileName)) {
+            // Write column names
             ResultSetMetaData metaData = resultSet.getMetaData();
             int columnCount = metaData.getColumnCount();
-
-            // Write column headers
             for (int i = 1; i <= columnCount; i++) {
-                writer.print(metaData.getColumnName(i) + "\t");
+                fileWriter.write(metaData.getColumnName(i) + "\t");
             }
-            writer.println();
+            fileWriter.write("\n");
 
-            // Write result rows
+            // Move cursor to the beginning of the result set
+            resultSet.beforeFirst();
+
+            // Write query results
             while (resultSet.next()) {
                 for (int i = 1; i <= columnCount; i++) {
-                    writer.print(resultSet.getString(i) + "\t");
+                    fileWriter.write(resultSet.getString(i) + "\t");
                 }
-                writer.println();
+                fileWriter.write("\n");
             }
-
-            System.out.println("Your search has been saved to '" + fileName + "'.");
+            System.out.println("Results saved to " + fileName + ".");
         } catch (IOException | SQLException e) {
-            e.printStackTrace();//
+            e.printStackTrace();
         }
     }
+
+
+
 
 }
